@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+}
 stages {
     stage('vcs') {
         steps {
@@ -21,4 +21,4 @@ stages {
                 sh 'docker image push shivakrishna99/spring-pet-clinic:DEV'
             }
         }
-} 
+
