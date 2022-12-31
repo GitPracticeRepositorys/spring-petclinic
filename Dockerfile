@@ -1,30 +1,13 @@
-FROM eclipse-temurin:17 as builder
-WORKDIR application
-ARG ARTIFACT_NAME
-COPY ${ARTIFACT_NAME}.jar application.jar
-RUN java -Djarmode=layertools -jar application.jar extract
+FROM openjdk:11-alpine
 
-# Download dockerize and cache that layer
-ARG DOCKERIZE_VERSION
-RUN wget -O dockerize.tar.gz https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
-RUN tar xzf dockerize.tar.gz
-RUN chmod +x dockerize
+# Required for starting application up.
+RUN apk update && apk add /bin/sh
 
+RUN mkdir -p /opt/app
+ENV PROJECT_HOME /opt/app
 
-FROM eclipse-temurin:17
+COPY target/spring-petclinic-2.7.3.jar $PROJECT_HOME/spring-petclinic-2.7.3.jar
 
-WORKDIR application
-
-# Dockerize
-COPY --from=builder application/dockerize ./
-
-ARG EXPOSED_PORT
-EXPOSE ${EXPOSED_PORT}
-
-ENV SPRING_PROFILES_ACTIVE docker
-
-COPY --from=builder application/dependencies/ ./
-COPY --from=builder application/spring-boot-loader/ ./
-COPY --from=builder application/snapshot-dependencies/ ./
-COPY --from=builder application/application/ ./
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+WORKDIR $PROJECT_HOME
+EXPOSE 8080
+CMD ["java" ,"-jar","./spring-petclinic-2.7.3.jar"]
