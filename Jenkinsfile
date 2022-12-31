@@ -11,7 +11,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh '/usr/local/apache maven 3.6.3/bin/mvn clean package'
+                sh 'mvn clean package'
             }
         }
         stage('docker image build') {
