@@ -16,12 +16,12 @@ pipeline {
         }
         stage('docker image build') {
             steps {
-                sh 'docker image build -t shivakrishna99/spring-petclinic'
+                sh 'docker build -t shivakrishna99/spring-petclinic'
             }
         }
         stage('push image to registry') {
             steps {
-                sh 'docker image push shivakrishna99/spring-petclinic'
+                sh 'docker push shivakrishna99/spring-petclinic'
             }
         }
     }
