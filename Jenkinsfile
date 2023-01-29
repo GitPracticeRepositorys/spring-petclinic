@@ -16,7 +16,7 @@ pipeline {
         }
         stage('docker image build') {
             steps {
-                sh 'docker build -t shivakrishna99/spring-petclinic'
+                sh 'docker build -t shivakrishna99/spring-petclinic .'
             }
         }
         stage('push image to registry') {
