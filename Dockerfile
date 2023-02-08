@@ -1,10 +1,6 @@
-# Alpine Linux with OpenJDK JRE
-FROM openjdk:8-jre-alpine
+FROM openjdk:14
+WORKDIR /app
+COPY /home/jenkins/jenkins_root/workspace/spring-pet-clinic/target/spring-petclinic-2.7.3.jar /app
+CMD ["java", "-jar", "spring-petclinic-2.7.3.jar"]
+EXPOSE 8080
 
-EXPOSE 8181
-
-# copy jar into image
-COPY target/spring-petclinic-2.7.3.jar $PROJECT_HOME/spring-petclinic-2.7.3.jar
-
-# run application with this command line 
-ENTRYPOINT ["java","-jar","/usr/bin/spring-petclinic.jar","--server.port=8181"]
