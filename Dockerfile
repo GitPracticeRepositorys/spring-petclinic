@@ -1,13 +1,10 @@
-FROM openjdk:11-alpine
+# Alpine Linux with OpenJDK JRE
+FROM openjdk:8-jre-alpine
 
-# Required for starting application up.
-RUN apk update && apk add /bin/sh
+EXPOSE 8181
 
-RUN mkdir -p /opt/app
-ENV PROJECT_HOME /opt/app
+# copy jar into image
+COPY target/spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar /usr/bin/spring-petclinic.jar
 
-COPY target/spring-petclinic-2.7.3.jar $PROJECT_HOME/spring-petclinic-2.7.3.jar
-
-WORKDIR $PROJECT_HOME
-EXPOSE 8080
-CMD ["java" ,"-jar","./spring-petclinic-2.7.3.jar"]
+# run application with this command line 
+ENTRYPOINT ["java","-jar","/usr/bin/spring-petclinic.jar","--server.port=8181"]
