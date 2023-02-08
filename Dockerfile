@@ -1,5 +1,11 @@
-FROM openjdk:14
+FROM eclipse-temurin:17-jdk-jammy
+ 
 WORKDIR /app
-COPY target/spring-petclinic-2.7.3.jar /app/spring-petclinic-2.7.3.jar
-CMD ["java", "-jar", "/app/spring-petclinic-2.7.3.jar"]
-EXPOSE 8080
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
