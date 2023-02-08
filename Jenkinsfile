@@ -15,11 +15,13 @@ pipeline {
             }
         }
         stage('docker image build') {
+            agent { label 'docker' }
             steps {
                 sh 'docker build -t shivakrishna99/spring-petclinic .'
             }
         }
         stage('push image to registry') {
+            agent { label 'docker' }
             steps {
                 sh 'docker push shivakrishna99/spring-petclinic'
             }
