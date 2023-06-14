@@ -21,7 +21,7 @@ pipeline {
             }
         }
         stage('push image to registry') {
-            agent { label 'docker' }
+            agent { label 'docker-1' }
             steps {
                 sh 'docker push shivakrishna99/spring-pet-clinic'
             }
