@@ -1,5 +1,7 @@
 pipeline {
-    agent { label 'jdk11' }
+    agent {
+        label 'jdk11'
+    }
     triggers {
         pollSCM('* * * * *')
     }
@@ -15,19 +17,21 @@ pipeline {
             }
         }
         stage('docker image build') {
-            agent { label 'docker-1' }
-            steps {
-                sh 'docker build -t shivakrishna99/spring-petclinic .'
+            agent {
+                label 'docker-1'
             }
-        }
-        stage('push image to registry') {
-            agent { label 'docker-1' }
             steps {
-                sh 'docker push shivakrishna99/spring-pet-clinic'
+                script {
+                    def imageName = "shivakrishna99/spring-petclinic"
+                    def dockerImage = docker.build(imageName, "--pull .")
+                    dockerImage.push()
+                }
             }
         }
         stage('deploy to tomcat') {
-            agent { label 'tomcat' }
+            agent {
+                label 'tomcat'
+            }
             steps {
                 sh 'cp target/spring-petclinic.war /path/to/tomcat/webapps/'
             }
