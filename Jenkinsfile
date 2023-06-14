@@ -26,6 +26,11 @@ pipeline {
                 sh 'docker push shivakrishna99/spring-pet-clinic'
             }
         }
+        stage('deploy to tomcat') {
+            agent { label 'tomcat' }
+            steps {
+                sh 'cp target/spring-petclinic.war /path/to/tomcat/webapps/'
+            }
+        }
     }
 }
-
