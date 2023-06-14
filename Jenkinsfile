@@ -15,7 +15,7 @@ pipeline {
             }
         }
         stage('docker image build') {
-            agent { label 'docker-node' }
+            agent { label 'docker-1' }
             steps {
                 sh 'docker build -t shivakrishna99/spring-petclinic .'
             }
